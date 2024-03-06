@@ -1,0 +1,16 @@
+.translator {
+    background-color: gray;
+}
+
+.translate {
+    border: 10px;
+
+    &__title {
+        font-size: 1.25rem;
+        color: red;
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+    }
+}
