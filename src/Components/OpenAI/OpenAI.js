@@ -1,17 +1,16 @@
 import { useState } from "react";
+import OpenAI from "openai";
 
-import { OpenAI } from "openai";
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
-
+const openai = new OpenAI();
+// console.log(process.env.OPENAI_API_KEY)
+console.log("Hello!")
 
 function TranslateAi() {
+    // console.log(process.env.OPENAI_API_KEY);
     const [translateText, setTranslateText] = useState('');
     function TranslateBtn() {
         TranslatedText(setTranslateText)
     }
-
 
     async function TranslatedText(setTranslateText) {
         const promptData = [
@@ -25,14 +24,14 @@ function TranslateAi() {
             }
         ]
         try {
-            const response = await openai.createCompletion({
-                model: '',
+            const completion = await openai.chat.completions.create({
+                model: 'gpt-4',
                 prompt: promptData,
                 max_tokens: 250,
                 temperature: 0.95
             });
 
-            console.log(response.data)
+            console.log(completion.data)
         } catch (error) {
             console.error(error)
         }
