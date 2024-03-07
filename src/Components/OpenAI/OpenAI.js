@@ -7,10 +7,10 @@ function TranslateAi() {
 
     const translateTextHandler = async () => {
         try {
-            const response = await axios.post("http://localhost:8000/translate", { text: translateText });
-            console.log(response.data)
-            const data = response.data
-            setResult(data)
+            const response = await axios.post("http://localhost:8001/", { text: translateText });
+            const data = response.data;
+            setResult(data.translatedResponse);
+            console.log(data.translatedResponse);
         } catch (error) {
             console.error(error)
         }
@@ -21,12 +21,13 @@ function TranslateAi() {
                 <input type='text' value={translateText} onChange={(e) => setTranslateText(e.target.value)} />
                 <button type='submit' className='translate-btn'>Translate</button>
             </form>
+            <div>
+                Result:
+            </div>
             {result && (
                 <div className="translate__result" >
                     <h3> Results: </h3>
-                    <p>
-                        {result}
-                    </p>
+                    <p>{result}</p>
                 </div>
             )}
         </>
