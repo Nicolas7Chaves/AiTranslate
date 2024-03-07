@@ -1,5 +1,5 @@
+import TranslateAi from '../Components/OpenAI/OpenAI';
 import './MainPage.scss'
-
 function MainPage() {
 
     return (
@@ -8,10 +8,7 @@ function MainPage() {
                 <h2 className='translate__title'>
                     Text to translate
                 </h2>
-                <form className='translate__form' action='submit' method='post'>
-                    <input type='text' id='translateText' name='Text to Translate' />
-                    <button type='submit'>Translate</button>
-                </form>
+                <TranslateAi />
             </div>
         </section>
     )
