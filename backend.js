@@ -1,6 +1,44 @@
-const PORT = 8000
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-require('dotenv').config()
+const { OpenAI } = require("openai");
+require('dotenv').config();
 
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+app.post('/translate', async (req, res) => {
+    const { text } = req.body;
+
+    const promptData = [
+        {
+            role: 'system',
+            content: 'You are a translator, translate from the Users english to Spanish.'
+        },
+        {
+            role: 'user',
+            content: text
+        }
+    ];
+
+    try {
+        const completion = await openai.chat.completions.create({
+            model: 'gpt-4',
+            prompt: promptData,
+            max_tokens: 250,
+            temperature: 0.95
+        });
+        res.json(completion.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

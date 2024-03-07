@@ -1,46 +1,35 @@
 import { useState } from "react";
-import OpenAI from "openai";
-
-const openai = new OpenAI();
-// console.log(process.env.OPENAI_API_KEY)
-console.log("Hello!")
+import axios from "axios";
 
 function TranslateAi() {
-    // console.log(process.env.OPENAI_API_KEY);
     const [translateText, setTranslateText] = useState('');
-    function TranslateBtn() {
-        TranslatedText(setTranslateText)
-    }
+    const [result, setResult] = useState('')
 
-    async function TranslatedText(setTranslateText) {
-        const promptData = [
-            {
-                role: 'system',
-                content: 'You are a translator, translate from the Users english to Spanish.'
-            },
-            {
-                role: 'user',
-                content: setTranslateText
-            }
-        ]
+    const translateTextHandler = async () => {
         try {
-            const completion = await openai.chat.completions.create({
-                model: 'gpt-4',
-                prompt: promptData,
-                max_tokens: 250,
-                temperature: 0.95
-            });
-
-            console.log(completion.data)
+            const response = await axios.post("http://localhost:8000/translate", { text: translateText });
+            console.log(response.data)
+            const data = response.data
+            setResult(data)
         } catch (error) {
             console.error(error)
         }
     }
     return (
-        <form className='translate__form' >
-            <input type='text' onChange={(e) => setTranslateText(e.target.value)} />
-            <button className='translate-btn' onClick={TranslateBtn}>Translate</button>
-        </form>
+        <>
+            <form className='translate__form' onSubmit={(e) => { e.preventDefault(); translateTextHandler(); }}>
+                <input type='text' value={translateText} onChange={(e) => setTranslateText(e.target.value)} />
+                <button type='submit' className='translate-btn'>Translate</button>
+            </form>
+            {result && (
+                <div className="translate__result" >
+                    <h3> Results: </h3>
+                    <p>
+                        {result}
+                    </p>
+                </div>
+            )}
+        </>
     )
 }
 export default TranslateAi;
