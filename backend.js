@@ -13,12 +13,17 @@ const openai = new OpenAI({
 });
 
 app.post('/', async (req, res) => {
-    const { text } = req.body;
-
+    const { text, language } = req.body;
+    const systemContent = {
+        'es': 'You are a translator, translate the user text to Spanish.',
+        'en': 'You are a translator, translate the user text to English.',
+        'fr': 'You are a translator, translate the user text to French.',
+        'de': 'You are a translator, translate the user text to German.',
+    };
     const messages = [
         {
             role: 'system',
-            content: 'You are a translator, translate from the Users english to Spanish.'
+            content: systemContent[language] || 'You are a language translator'
         },
         {
             role: 'user',
@@ -30,12 +35,11 @@ app.post('/', async (req, res) => {
         const completion = await openai.chat.completions.create({
             model: 'gpt-4',
             messages: messages,
-            max_tokens: 250,
             temperature: 0.75
         });
         const translatedResponse = completion.choices[0].message.content
+        res.json({ translatedResponse: translatedResponse });
 
-        res.json( {translatedResponse : translatedResponse});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
