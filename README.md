@@ -1,5 +1,9 @@
 # Getting Started with AiTranslate
 AiTranslate offers translation services for four languages: Spanish, English, French, and German. To begin, select your desired language from the input box, type the text you wish to translate, and press the translate button. Upon successful configuration of your API key, the translation will be displayed below the results. Enjoy seamless translation services with AiTranslate!
+
+## How to use the App
+![AiTranslate Demo](./instructions.gif)
+
 ## Available Scripts
 
 In the project directory, you can run:
