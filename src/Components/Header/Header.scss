@@ -1,0 +1,18 @@
+.header {
+    max-height: 10rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    width: 500px;
+    justify-content: center;
+
+    &__background {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    &__title {
+        margin: 0 1rem;
+    }
+}
