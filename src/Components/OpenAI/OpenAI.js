@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
+import './OpenAI.scss'
 
 function TranslateAi() {
     const [translateText, setTranslateText] = useState('');
     const [result, setResult] = useState('')
     const [selectedLanguage, setSelectedLanguage] = useState('es');
-
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const languages = [
         { code: 'es', name: 'Spanish' },
@@ -27,12 +28,24 @@ function TranslateAi() {
             console.error(error)
         }
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        translateTextHandler();
+    }
+
+    const handleInput = (e) => {
+        const inputText = e.target.value;
+        setTranslateText(inputText);
+        setIsButtonDisabled(inputText.trim() === '');
+    }
+
     return (
-        <>
-            <div>
+        <div className="translate">
+            <div className="translate__title">
                 Which Language to translate to:
                 {languages.map((language) =>
-                    <label key={language.code}>
+                    <label key={language.code} className="translate__label">
                         <input
                             type="radio"
                             value={language.code}
@@ -43,13 +56,10 @@ function TranslateAi() {
                     </label>
                 )}
             </div >
-            <form className='translate__form' onSubmit={(e) => { e.preventDefault(); translateTextHandler(); }}>
-                <input type='text' value={translateText} onChange={(e) => setTranslateText(e.target.value)} />
-                <button type='submit' className='translate-btn'>Translate</button>
+            <form className='translate__form' onSubmit={handleSubmit}>
+                <input className="translate__input" type='text' value={translateText} onChange={handleInput} />
+                <button type='submit' className='translate__btn' disabled={isButtonDisabled}>Translate</button>
             </form>
-            <div>
-                Result:
-            </div>
             {
                 result && (
                     <div className="translate__result" >
@@ -58,7 +68,7 @@ function TranslateAi() {
                     </div>
                 )
             }
-        </>
+        </div>
     )
 }
 export default TranslateAi;

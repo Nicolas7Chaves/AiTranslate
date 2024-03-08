@@ -1,0 +1,11 @@
+.translate {
+    font-size: 1.15rem;
+    &__title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    &__label {
+        display: flex;
+    }
+}

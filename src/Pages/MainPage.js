@@ -6,7 +6,7 @@ function MainPage() {
         <section className='translator'>
             <div className='translate'>
                 <h2 className='translate__title'>
-                    Text to translate
+                    Translation Service
                 </h2>
                 <TranslateAi />
             </div>
